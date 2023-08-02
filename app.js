@@ -1,8 +1,9 @@
-// Utilize prompt sync for getting user input
-const prompt = require('prompt-sync')();
+const prompt = require('prompt-sync')(); // Utilize prompt sync for getting user input
+const cfonts = require('cfonts'); // Using cfonts to display output visually in CLI
+const CC = require('currency-converter-lt')
+
 
 // Set up NodeJS Currency Converter to convert a currency to another currency
-const CC = require('currency-converter-lt')
 let currencyConverter = new CC()
 let ratesCacheOptions = {
     isRatesCaching: true, // Set this boolean to true to implement rate caching
@@ -11,9 +12,28 @@ let ratesCacheOptions = {
 currencyConverter = currencyConverter.setupRatesCache(ratesCacheOptions)
 module.exports = currencyConverter
 
+// Function to display the cfonts message
+function displayMessage() {
+    const prettyFont = cfonts.render('Currency|Converter!', {
+      font: 'block', // define the font face
+      align: 'center', // define text alignment
+      colors: ['green'], // define all colors
+      background: 'transparent', // define the background color, you can also use `backgroundColor` here as key
+      letterSpacing: 1, // define letter spacing
+      lineHeight: 1, // define the line height
+      space: true, // define if the output text should have empty lines on top and on the bottom
+      maxLength: '0', // define how many characters can be on one line
+      gradient: false, // define your two gradient colors
+      independentGradient: false, // define if you want to recalculate the gradient for each new line
+      transitionGradient: false, // define if this is a transition between colors directly
+      env: 'node', // define the environment cfonts is being executed in
+    });
+    console.log(prettyFont.string);
+  }
 
 async function main() {
   try {
+    displayMessage();
     // Ask user what currency they are converting from
     let initial_curr = prompt('What currency are you converting from?: ');
 
@@ -25,7 +45,7 @@ async function main() {
 
     // Perform currency conversion using the currency-converter-lt package
     currencyConverter.from(initial_curr).to(target_curr).amount(amount).convert().then((response) => {
-        console.log("Your new curreny is " + response) 
+        console.log("Your new currency is " + response) 
     })
   } catch (err) {
     console.error('Error occurred:', err.message);
