@@ -1,4 +1,4 @@
-# CLI-Project
+# Currency Converter
 
 #### Developed a currency converter in the CLI during a Capital One Tech Mini Mester workshop.
 Technologies used: JavaScript, Node.js, npm
